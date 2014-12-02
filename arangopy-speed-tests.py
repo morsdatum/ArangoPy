@@ -10,7 +10,7 @@ from arangodb.api import Client, Database, Collection
 from arangodb.query.advanced import Query
 from arangodb.query.simple import SimpleQuery
 
-client = Client('localhost')
+client = Client('arango.nix.bra')
 
 # Create database in which all collections are created
 database_name = 'arangopy_speed_test_database'
@@ -35,7 +35,20 @@ def timer_decorator(message):
     return outer_wrapper
 
 
-document_number = 10**6 # 10 thousand
+document_number = 10**5 # 10 thousand
+
+def timer_decorator2(message):
+    def outer_wrapper2(func):
+        def wrapper2(*args, **kwargs):
+	    global document_number
+            start = timer()
+            func(*args, **kwargs)
+            elapsed = timer() - start
+            print(message % (document_number,elapsed))
+
+        return wrapper2
+
+    return outer_wrapper2
 
 @timer_decorator('Adding documents to the collection took %s seconds')
 def create_big_number_of_documents(big_collection):
@@ -47,21 +60,21 @@ def create_big_number_of_documents(big_collection):
         doc.index = i
         doc.save()
 
-@timer_decorator('Retrieving %s documents normally from the collection took %s seconds')
+@timer_decorator2('Retrieving %s documents normally from the collection took %s seconds')
 def retrieve_normally_documents(big_collection):
     """
     """
 
     big_collection.documents()
 
-@timer_decorator('Retrieving %s documents via simple query from the collection took %s seconds')
+@timer_decorator2('Retrieving %s documents via simple query from the collection took %s seconds')
 def retrieve_simply_documents(big_collection):
     """
     """
 
     SimpleQuery.all(collection=big_collection)
 
-@timer_decorator('Retrieving %s documents via aql from the collection took %s seconds')
+@timer_decorator2('Retrieving %s documents via aql from the collection took %s seconds')
 def retrieve_aql_documents(big_collection):
     """
     """
