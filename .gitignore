@@ -62,3 +62,6 @@ docs/_build/
 # PyCharm
 .idea
 atlassian-ide-plugin.xml
+
+#Editor backup
+*.*~
