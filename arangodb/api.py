@@ -397,6 +397,7 @@ class Collection(object):
                 collection=self,
                 api=self.api
             )
+
             document_list.append(doc)
 
         return document_list
@@ -424,12 +425,14 @@ class Document(object):
 
         return doc
 
-    def __init__(self, id, key, collection, api):
+    def __init__(self, id, key, collection, api, **kwargs):
         """
             :param id Document id (collection_name/number)
             :param key Document key (number)
             :param collection Collection name
             :param api Slumber API object
+
+            :param rev Document revision, default value is key
         """
 
         self.data = {}
@@ -437,6 +440,7 @@ class Document(object):
 
         self.id = id
         self.key = key
+        self.revision = kwargs.pop('rev', key)
         self.collection = collection
         self.api = api
         self.resource = api.document
@@ -460,13 +464,15 @@ class Document(object):
 
         # TODO: Add option force_insert
 
-        if not self.is_loaded:
+        if not self.is_loaded and self.id is None or self.id == '':
             data = self.api.document.post(data=self.data, collection=self.collection)
             self.id = data['_id']
             self.key = data['_key']
+            self.revision = data['_rev']
             self.is_loaded = True
         else:
-            self.resource(self.id).patch(data=self.data)
+            data = self.resource(self.id).patch(data=self.data)
+            self.revision = data['_rev']
 
     def get(self, key):
         """
@@ -523,7 +529,7 @@ class Document(object):
         """
 
         # Set internal variables normally
-        if key in ['data', 'is_loaded', 'id', 'key', 'collection', 'api', 'resource']:
+        if key in ['data', 'is_loaded', 'id', 'key', 'revision', 'collection', 'api', 'resource']:
             super(Document, self).__setattr__(key, value)
         else:
             self.set(key=key, value=value)
