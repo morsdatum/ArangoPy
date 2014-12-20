@@ -18,6 +18,7 @@ test_suites.append( unittest.TestLoader().loadTestsFromTestCase(DocumentTestCase
 test_suites.append( unittest.TestLoader().loadTestsFromTestCase(AqlQueryTestCase) )
 test_suites.append( unittest.TestLoader().loadTestsFromTestCase(SimpleQueryTestCase) )
 test_suites.append( unittest.TestLoader().loadTestsFromTestCase(SimpleIndexQueryTestCase) )
+test_suites.append( unittest.TestLoader().loadTestsFromTestCase(IntegerDocumentTestCase) )
 test_suites.append( unittest.TestLoader().loadTestsFromTestCase(TraveserTestCase) )
 test_suites.append( unittest.TestLoader().loadTestsFromTestCase(CollectionModelTestCase) )
 test_suites.append( unittest.TestLoader().loadTestsFromTestCase(CollectionModelManagerTestCase) )
