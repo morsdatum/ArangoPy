@@ -523,10 +523,10 @@ class IntegerDocumentTestCase(unittest.TestCase):
     def test_dec19_save(self):
 	for i in xrange(100):
             doc = self.col4.create_document()
-	    doc.dec18 = 10**18;
-	    doc.dec18_1 = 10**18 - 1
-	    doc.dec17 = 10**17
-	    doc.dec17_1 = 10**17 - 1
+	    doc.dec18 = 10**15;
+	    doc.dec18_1 = 10**15 - 1
+	    doc.dec17 = 10**14
+	    doc.dec17_1 = 10**14 - 1
 	    doc.save()
 
 	docs = SimpleQuery.all(self.col4)
@@ -534,19 +534,19 @@ class IntegerDocumentTestCase(unittest.TestCase):
 	self.assertEqual(len(docs),100)
 
 	for j in xrange(len(docs)):
-	    self.assertEqual(docs[j].dec18,10**18)
-	    self.assertEqual(docs[j].dec18_1,10**18 - 1)
-	    self.assertEqual(docs[j].dec17,10**17)
-	    self.assertEqual(docs[j].dec17_1,10**17 - 1)
+	    self.assertEqual(docs[j].dec18,10**15)
+	    self.assertEqual(docs[j].dec18_1,10**15 - 1)
+	    self.assertEqual(docs[j].dec17,10**14)
+	    self.assertEqual(docs[j].dec17_1,10**14 - 1)
 	     
 
     def test_int64_doc_save(self):
 	for y in xrange(300):
 	    doc = self.col2.create_document()
-	    doc.int62 = 2**62
-	    doc.int62_1 = 2**62 - 1
-	    doc.int63 = 2**63
-	    doc.int63_1 = 2**63 - 1
+	    doc.int62 = 2**52
+	    doc.int62_1 = 2**52 - 1
+	    doc.int63 = 2**53
+	    doc.int63_1 = 2**53 - 1
 	    doc.save()
 
 	docs = SimpleQuery.all(self.col2)
@@ -554,10 +554,10 @@ class IntegerDocumentTestCase(unittest.TestCase):
 	self.assertEqual(len(docs),300)
 
 	for y in xrange(len(docs)):
-	    self.assertEqual(docs[y].int62,2**62)
-	    self.assertEqual(docs[y].int62_1,2**62 - 1)
-	    self.assertEqual(docs[y].int63,2**63)
-	    self.assertEqual(docs[y].int63_1,2**63 - 1)
+	    self.assertEqual(docs[y].int62,2**52)
+	    self.assertEqual(docs[y].int62_1,2**52 - 1)
+	    self.assertEqual(docs[y].int63,2**53)
+	    self.assertEqual(docs[y].int63_1,2**53 - 1)
 
 
 class SimpleIndexQueryTestCase(ExtendedTestCase):
